@@ -31,21 +31,97 @@
 ```bash
 $ npm install
 ```
+or
+
+```bash
+yarn install
+```
 
 ## Running the app
 
 ```bash
-# development
-$ npm run start
+$ yarn start
 ```
-
-## API Documentation
+or
+```bash
+npm start
+```
+## Unit test
 
 ```bash
-# development
+$ npm test
+```
+or
+```bash
+yarn start
+```
+
+## API Documentation Swagger
+
+```bash
 $ http://localhost:3000/docs
 ```
 
+# Upsert Recommendation
+```
+Request: 
+url : [POST] http://localhost:3000/api/v1/recommendation
+payload :  {
+	 "clevertapId" : "b5229904b-3752-44ef-b37d-a152aa99c495",
+    "cuisineIds" : [ 
+        443, 
+        345, 
+        322, 
+        433
+    ]
+ }
+
+
+Response:
+{
+	"message": "success",
+	"statusCode": 200,
+	"result": {
+		"clevertapId": "b5229904b-3752-44ef-b37d-a152aa99c495",
+		"cuisineIds": [
+			443,
+			345,
+			322,
+			433
+		]
+	}
+}
+```
+# Get Recommendation by clevertapId
+```
+Request: 
+url : [Get] http://localhost:3000/api/v1/recommendation/b5229904b-3752-44ef-b37d-a152aa99c495
+payload :  {
+	 "clevertapId" : "b5229904b-3752-44ef-b37d-a152aa99c495",
+    "cuisineIds" : [ 
+        443, 
+        345, 
+        322, 
+        433
+    ]
+ }
+
+
+Response:
+{
+	"message": "success",
+	"statusCode": 200,
+	"result": {
+		"clevertapId": "b5229904b-3752-44ef-b37d-a152aa99c495",
+		"cuisineIds": [
+			443,
+			345,
+			322,
+			433
+		]
+	}
+}
+```
 ## Support
 
 Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
@@ -53,5 +129,4 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
 Nest is [MIT licensed](LICENSE).
-# recommendation-service
-# recommendation-service
+
