@@ -95,7 +95,7 @@ Response:
 # Get Recommendation by clevertapId
 ```
 Request: 
-url : [Get] http://localhost:3000/api/v1/recommendation/b5229904b-3752-44ef-b37d-a152aa99c495
+url : [Get] http://localhost:3000/api/v1/recommendation/{clevertapId}
 payload :  {
 	 "clevertapId" : "b5229904b-3752-44ef-b37d-a152aa99c495",
     "cuisineIds" : [ 
