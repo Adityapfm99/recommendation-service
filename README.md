@@ -34,7 +34,7 @@ $ npm install
 or
 
 ```bash
-yarn install
+$ yarn install
 ```
 
 ## Running the app
@@ -44,20 +44,20 @@ $ yarn start
 ```
 or
 ```bash
-npm start
+$ npm start
 ```
-## Unit test
+## Unit testing
 
 ```bash
 $ npm test
 ```
 or
 ```bash
-yarn start
+$ yarn test
 ```
 
 ## API Documentation Swagger
-
+![Alt text](img/swagger.png)
 ```bash
 $ http://localhost:3000/docs
 ```
