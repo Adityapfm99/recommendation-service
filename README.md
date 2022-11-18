@@ -65,7 +65,9 @@ $ {}url/docs
 # Upsert Recommendation
 ```
 Request: 
-url : [POST] {url}/recommendation
+Base_url = /api/v1
+
+url : [POST] {Base_url}/recommendation
 payload :  {
 	 "clevertapId" : "b5229904b-3752-44ef-b37d-a152aa99c495",
     "restaurantIds" : [ 
@@ -73,6 +75,11 @@ payload :  {
         345, 
         322, 
         433
+    ],
+     "cuisineIds" : [ 
+        450, 
+        321, 
+        333
     ]
  }
 
@@ -88,14 +95,21 @@ Response:
 			345,
 			322,
 			433
-		]
+		],
+    "cuisineIds" : [ 
+        450, 
+        321, 
+        333
+    ]
 	}
 }
 ```
 # Get Recommendation by clevertapId
 ```
 Request: 
-url : [Get] {url}/recommendation/{clevertapId}
+Base_url = /api/v1
+
+url : [Get] {Base_url}/recommendation/{clevertapId}
 payload :  {
 	 "clevertapId" : "b5229904b-3752-44ef-b37d-a152aa99c495",
     "restaurantIds" : [ 
@@ -103,6 +117,11 @@ payload :  {
         345, 
         322, 
         433
+    ],
+     "cuisineIds" : [ 
+        450, 
+        321, 
+        333
     ]
  }
 
@@ -118,7 +137,12 @@ Response:
 			345,
 			322,
 			433
-		]
+		],
+     "cuisineIds" : [ 
+        450, 
+        321, 
+        333
+    ]
 	}
 }
 ```
