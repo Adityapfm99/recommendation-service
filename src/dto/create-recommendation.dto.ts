@@ -1,5 +1,4 @@
-import { IsNotEmpty, IsString } from 'class-validator';
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class CreateRecommendationDto {
   @ApiProperty({
@@ -7,8 +6,16 @@ export class CreateRecommendationDto {
   })
   clevertapId: string;
 
-  @ApiProperty({})
+  @ApiPropertyOptional({
+    example: [234,557,889],
+  })
   restaurantIds: any;
+
+  @ApiPropertyOptional({
+    example: [100,200,300],
+  })
+  
+  cuisineIds: any;
 
   @ApiProperty({})
   createDate: Date;

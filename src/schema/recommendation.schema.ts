@@ -10,6 +10,9 @@ export class Recommendation {
     @Prop({ type: Object })
     restaurantIds: any;
 
+    @Prop({ type: Object })
+    cuisineIds: any;
+
     @Prop({ type: Date, default: now() })
     createdDate: Date;
 

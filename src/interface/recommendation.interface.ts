@@ -5,6 +5,8 @@ export interface IRecommendation extends Document{
 
     readonly restaurantIds: any;
 
+    readonly cuisineIds: any;
+
     readonly createdDate: Date;
 
     readonly updatedDate: Date;

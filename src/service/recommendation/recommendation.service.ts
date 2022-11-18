@@ -14,12 +14,21 @@ export class RecommendationService {
   async upsert(
     createRecommendationDto: CreateRecommendationDto,
   ): Promise<IRecommendation> {
+    let update;
     const filter = { clevertapId: createRecommendationDto.clevertapId };
-    const update = {
-      restaurantIds: createRecommendationDto.restaurantIds,
-      updatedDate: now(),
-    };
-
+    if (createRecommendationDto.cuisineIds) {
+      update = {
+        restaurantIds: createRecommendationDto.restaurantIds,
+        updatedDate: now(),
+        cuisineIds : createRecommendationDto.cuisineIds
+      };
+    } else {
+      update = {
+        restaurantIds: createRecommendationDto.restaurantIds,
+        updatedDate: now(),
+      };
+    }
+  
     let newRecommendation = await this.recommendationModel.findOneAndUpdate(
       filter,
       update,

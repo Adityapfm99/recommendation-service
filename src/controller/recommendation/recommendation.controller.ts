@@ -29,6 +29,7 @@ export class RecommendationController {
         const result = {
           clevertapId : Recommendation.clevertapId,
           restaurantIds: Recommendation.restaurantIds,
+          cuisineIds: Recommendation.cuisineIds || [],
         }
       return response.status(HttpStatus.CREATED).json({
         message: 'success',
