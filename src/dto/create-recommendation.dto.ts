@@ -8,7 +8,7 @@ export class CreateRecommendationDto {
   clevertapId: string;
 
   @ApiProperty({})
-  cuisineIds: any;
+  restaurantIds: any;
 
   @ApiProperty({})
   createDate: Date;

@@ -8,7 +8,7 @@ export class Recommendation {
     clevertapId: string;
 
     @Prop({ type: Object })
-    cuisineIds: any;
+    restaurantIds: any;
 
     @Prop({ type: Date, default: now() })
     createdDate: Date;

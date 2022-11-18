@@ -16,7 +16,7 @@ export class RecommendationService {
   ): Promise<IRecommendation> {
     const filter = { clevertapId: createRecommendationDto.clevertapId };
     const update = {
-      cuisineIds: createRecommendationDto.cuisineIds,
+      restaurantIds: createRecommendationDto.restaurantIds,
       updatedDate: now(),
     };
 

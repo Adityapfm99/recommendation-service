@@ -28,7 +28,7 @@ export class RecommendationController {
         );
         const result = {
           clevertapId : Recommendation.clevertapId,
-          cuisineIds: Recommendation.cuisineIds,
+          restaurantIds: Recommendation.restaurantIds,
         }
       return response.status(HttpStatus.CREATED).json({
         message: 'success',
@@ -53,7 +53,7 @@ export class RecommendationController {
       const recommendation = await this.recommendationService.getClevertapId(clevertapId);
       const result = {
         clevertapId : recommendation.clevertapId,
-        cuisineIds: recommendation.cuisineIds,
+        restaurantIds: recommendation.restaurantIds,
       }
       return response.status(HttpStatus.OK).json({
         message: 'success',

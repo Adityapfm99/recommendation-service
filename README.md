@@ -59,16 +59,16 @@ $ yarn test
 ## API Documentation Swagger
 ![Alt text](img/swagger.png)
 ```bash
-$ http://localhost:3000/docs
+$ {}url/docs
 ```
 
 # Upsert Recommendation
 ```
 Request: 
-url : [POST] http://localhost:3000/api/v1/recommendation
+url : [POST] {url}/recommendation
 payload :  {
 	 "clevertapId" : "b5229904b-3752-44ef-b37d-a152aa99c495",
-    "cuisineIds" : [ 
+    "restaurantIds" : [ 
         443, 
         345, 
         322, 
@@ -83,7 +83,7 @@ Response:
 	"statusCode": 200,
 	"result": {
 		"clevertapId": "b5229904b-3752-44ef-b37d-a152aa99c495",
-		"cuisineIds": [
+		"restaurantIds": [
 			443,
 			345,
 			322,
@@ -95,10 +95,10 @@ Response:
 # Get Recommendation by clevertapId
 ```
 Request: 
-url : [Get] http://localhost:3000/api/v1/recommendation/{clevertapId}
+url : [Get] {url}/recommendation/{clevertapId}
 payload :  {
 	 "clevertapId" : "b5229904b-3752-44ef-b37d-a152aa99c495",
-    "cuisineIds" : [ 
+    "restaurantIds" : [ 
         443, 
         345, 
         322, 
@@ -113,7 +113,7 @@ Response:
 	"statusCode": 200,
 	"result": {
 		"clevertapId": "b5229904b-3752-44ef-b37d-a152aa99c495",
-		"cuisineIds": [
+		"restaurantIds": [
 			443,
 			345,
 			322,

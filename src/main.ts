@@ -7,7 +7,7 @@ import { DocumentBuilder } from '@nestjs/swagger/dist';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const options = new DocumentBuilder()
-    .setTitle('Recommendation Cuisines')
+    .setTitle('Recommendation Restaurants')
     .setVersion('1.0')
     .build();
   const document = SwaggerModule.createDocument(app, options);

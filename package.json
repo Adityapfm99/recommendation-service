@@ -1,7 +1,7 @@
 {
-  "name": "recommendation-cuisines",
+  "name": "recommendation-restaurants",
   "version": "0.0.1",
-  "description": "API for recommendation cuisines",
+  "description": "API for recommendation restaurant",
   "author": "aditya",
   "private": true,
   "license": "UNLICENSED",
