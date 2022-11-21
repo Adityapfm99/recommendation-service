@@ -23,18 +23,13 @@ export class RecommendationController {
   ) {
     try {
       const Recommendation =
-        await this.recommendationService.upsert(
+        await this.recommendationService.createRecommendation(
           createRecommendationDto,
         );
-        const result = {
-          clevertapId : Recommendation.clevertapId,
-          restaurantIds: Recommendation.restaurantIds,
-          cuisineIds: Recommendation.cuisineIds || [],
-        }
       return response.status(HttpStatus.CREATED).json({
         message: 'success',
         statusCode: 201,
-        result,
+        Recommendation,
       });
     } catch (err) {
       return response.status(HttpStatus.BAD_REQUEST).json({
@@ -52,15 +47,20 @@ export class RecommendationController {
   ) {
     try {
       const recommendation = await this.recommendationService.getClevertapId(clevertapId);
-      const result = {
-        clevertapId : recommendation.clevertapId,
-        restaurantIds: recommendation.restaurantIds,
+      if (recommendation.length) {
+        return response.status(HttpStatus.OK).json({
+          message: 'success',
+          statusCode: 200,
+          recommendation,
+        });
+      } else {
+        return response.status(HttpStatus.NOT_FOUND).json({
+          message: 'Recommendation Not Found',
+          statusCode: 404,
+          recommendation,
+        });
       }
-      return response.status(HttpStatus.OK).json({
-        message: 'success',
-        statusCode: 200,
-        result,
-      });
+      
     } catch (err) {
       return response.status(err.status).json(err.response);
     }

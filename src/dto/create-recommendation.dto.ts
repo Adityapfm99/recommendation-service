@@ -9,13 +9,13 @@ export class CreateRecommendationDto {
   @ApiPropertyOptional({
     example: [234,557,889],
   })
-  restaurantIds: any;
+  restaurantId: string;
 
   @ApiPropertyOptional({
     example: [100,200,300],
   })
   
-  cuisineIds: any;
+  cuisineId: string;
 
   @ApiProperty({})
   createDate: Date;

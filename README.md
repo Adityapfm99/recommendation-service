@@ -70,17 +70,8 @@ Base_url = /api/v1
 url : [POST] {Base_url}/recommendation
 payload :  {
 	 "clevertapId" : "b5229904b-3752-44ef-b37d-a152aa99c495",
-    "restaurantIds" : [ 
-        443, 
-        345, 
-        322, 
-        433
-    ],
-     "cuisineIds" : [ 
-        450, 
-        321, 
-        333
-    ]
+    "restaurantId" : "123",
+     "cuisineId" : "456"
  }
 
 
@@ -90,17 +81,8 @@ Response:
 	"statusCode": 200,
 	"result": {
 		"clevertapId": "b5229904b-3752-44ef-b37d-a152aa99c495",
-		"restaurantIds": [
-			443,
-			345,
-			322,
-			433
-		],
-    "cuisineIds" : [ 
-        450, 
-        321, 
-        333
-    ]
+		"restaurantId": "212",
+    "cuisineId" : "339"
 	}
 }
 ```
@@ -112,17 +94,8 @@ Base_url = /api/v1
 url : [Get] {Base_url}/recommendation/{clevertapId}
 payload :  {
 	 "clevertapId" : "b5229904b-3752-44ef-b37d-a152aa99c495",
-    "restaurantIds" : [ 
-        443, 
-        345, 
-        322, 
-        433
-    ],
-     "cuisineIds" : [ 
-        450, 
-        321, 
-        333
-    ]
+    "restaurantId" : "212",
+     "cuisineId" : "339"
  }
 
 
@@ -132,17 +105,8 @@ Response:
 	"statusCode": 200,
 	"result": {
 		"clevertapId": "b5229904b-3752-44ef-b37d-a152aa99c495",
-		"restaurantIds": [
-			443,
-			345,
-			322,
-			433
-		],
-     "cuisineIds" : [ 
-        450, 
-        321, 
-        333
-    ]
+		"restaurantId": "212",
+     "cuisineId" : "339"
 	}
 }
 ```

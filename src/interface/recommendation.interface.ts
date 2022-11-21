@@ -3,9 +3,9 @@ import { Document } from 'mongoose';
 export interface IRecommendation extends Document{
     readonly clevertapId: string;
 
-    readonly restaurantIds: any;
+    readonly restaurantId: string;
 
-    readonly cuisineIds: any;
+    readonly cuisineId: string;
 
     readonly createdDate: Date;
 

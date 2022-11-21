@@ -7,11 +7,11 @@ export class Recommendation {
     @Prop()
     clevertapId: string;
 
-    @Prop({ type: Object })
-    restaurantIds: any;
+    @Prop()
+    restaurantId: string;
 
-    @Prop({ type: Object })
-    cuisineIds: any;
+    @Prop()
+    cuisineId: string;
 
     @Prop({ type: Date, default: now() })
     createdDate: Date;
