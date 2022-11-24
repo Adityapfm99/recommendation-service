@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { CreateRecommendationDto } from 'src/dto/create-recommendation.dto';
 import { IRecommendation } from 'src/interface/recommendation.interface';
@@ -24,6 +24,8 @@ export class RecommendationService {
           updatedDate: now()
          },
       );
+    } else {
+      throw new BadRequestException(`Payload not completed`)
     }
     
   return newRecommendation;

@@ -15,9 +15,7 @@ async function bootstrap() {
 
   const port = process.env.PORT || 3000;
   await app.listen(port, () => {
-    console.log(`===== Server listening on port ${port} =====`);
-    console.log("Press CTRL-C to stop\n");
-
+    console.log(`===== Server listening on port ${port} =====`)
   });
 
 }
