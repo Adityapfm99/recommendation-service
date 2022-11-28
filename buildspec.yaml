@@ -1,0 +1,18 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 14.x
+    commands:
+      - echo Installing Yarn...
+      - npm install -g yarn
+  pre_build:
+    commands:
+      - aws ssm get-parameter --region $AWS_REGION --name "$mongo_ssm_parameter" --with-decryption --output text --query Parameter.Value > .env
+  build:
+    commands:
+      - echo Build started on `date`
+      - yarn
+      - yarn build
+      - ls
