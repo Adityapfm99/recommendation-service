@@ -17,6 +17,8 @@ phases:
       - IMAGE_TAG=$(echo "$SHORT-$CODEBUILD_BUILD_NUMBER")
       - echo Build started on `date`
       - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
+      - yarn install
+      - yarn build
       - docker build --no-cache --build-arg account=${AWS_ACCOUNT_ID} -t $ECR_REPO:$IMAGE_TAG .
       - docker push $ECR_REPO:$IMAGE_TAG
       - echo Build completed on `date`
