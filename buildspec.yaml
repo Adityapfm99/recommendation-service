@@ -15,4 +15,4 @@ phases:
       - echo Build started on `date`
       - yarn
       - yarn build
-      - ls
+      - ls dist
