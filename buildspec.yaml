@@ -16,3 +16,13 @@ phases:
       - yarn
       - yarn build
       - ls dist
+      - SHORT=$(echo "$CODEBUILD_RESOLVED_SOURCE_VERSION" | cut -c -6)
+      - IMAGE_TAG=$(echo "$SHORT-$CODEBUILD_BUILD_NUMBER")
+      - echo Build started on `date`
+      - docker build --no-cache --build-arg account=${AWS_ACCOUNT_ID} -t $ECR_REPO:$IMAGE_TAG .
+      - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
+      - aws eks update-kubeconfig --name $EKS_CLUSTER --region $AWS_REGION
+      - docker push $ECR_REPO:$IMAGE_TAG
+      - echo Build completed on `date`
+      - envsubst < manifest/kube/dev/deployment.tmpl > manifest/kube/dev/deployment.yaml
+      - kubectl apply -f manifest/kube/dev/deployment.yaml
