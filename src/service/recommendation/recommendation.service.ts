@@ -50,7 +50,7 @@ export class RecommendationService {
       .exec();
     if (!page || !size) {
       page = 1;
-      size = 2;
+      size = 20;
     }
     result = existingRecommendation.slice((page - 1) * size, page * size);
     if (!result) {
