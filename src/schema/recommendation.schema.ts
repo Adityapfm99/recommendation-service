@@ -13,6 +13,9 @@ export class Recommendation {
     @Prop()
     cuisineId: string;
 
+    @Prop()
+    userId: string;
+
     @Prop({ type: Date, default: now() })
     createdDate: Date;
 

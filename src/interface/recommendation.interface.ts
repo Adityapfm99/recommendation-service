@@ -7,6 +7,8 @@ export interface IRecommendation extends Document{
 
     readonly cuisineId: string;
 
+    readonly userId: string;
+
     readonly createdDate: Date;
 
     readonly updatedDate: Date;
