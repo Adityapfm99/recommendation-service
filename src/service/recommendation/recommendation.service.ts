@@ -4,7 +4,7 @@ import {
   NotFoundException,
 } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
-import { CreateRecommendationDto } from "src/dto/create-recommendation.dto";
+import { CreateRecommendationDto, CreateRecommendationV2Dto } from "src/dto/create-recommendation.dto";
 import { IRecommendation } from "src/interface/recommendation.interface";
 import { Model, now } from "mongoose";
 
@@ -35,6 +35,26 @@ export class RecommendationService {
       throw new BadRequestException(`Payload not completed`);
     }
 
+    return newRecommendation;
+  }
+
+  async createRecommendationV2(
+    createRecommendationV2Dto: CreateRecommendationV2Dto
+  ): Promise<IRecommendation> {
+    let newRecommendation;
+    const cuisineId = createRecommendationV2Dto.key_values ? createRecommendationV2Dto.key_values.cuisineId : 0;
+    const restaurantId = createRecommendationV2Dto.key_values ? createRecommendationV2Dto.key_values.restaurantId : 0;
+    const clevertapId = createRecommendationV2Dto.profiles[0] ? createRecommendationV2Dto.profiles[0].objectId : null;
+    const userId = createRecommendationV2Dto.profiles[0] ? createRecommendationV2Dto.profiles[0].key_values.clevertapId : 0;
+    
+    newRecommendation = await this.recommendationModel.create({
+        cuisineId: cuisineId,
+        restaurantId: restaurantId,
+        clevertapId: clevertapId,
+        userId: userId,
+        createdDate: now(),
+        updatedDate: now(),
+      });
     return newRecommendation;
   }
 
