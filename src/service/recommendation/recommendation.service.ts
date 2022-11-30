@@ -46,6 +46,7 @@ export class RecommendationService {
     let priceAndPricingType;
     let res;
     let names;
+    let location;
     const cuisineId = createRecommendationV2Dto.key_values ? createRecommendationV2Dto.key_values.cuisineId : 0;
     const restaurantId = createRecommendationV2Dto.key_values ? createRecommendationV2Dto.key_values.restaurantId : 0;
     const clevertapId = createRecommendationV2Dto.profiles[0] ? createRecommendationV2Dto.profiles[0].objectId : null;
@@ -54,7 +55,7 @@ export class RecommendationService {
     let name = createRecommendationV2Dto.key_values ? createRecommendationV2Dto.key_values.name : null;
     let reviewScore = createRecommendationV2Dto.key_values ? createRecommendationV2Dto.key_values.reviewsScore : null;
     let reviewCount = createRecommendationV2Dto.key_values ? createRecommendationV2Dto.key_values.reviewsCount : null;
-    let location = createRecommendationV2Dto.key_values ? createRecommendationV2Dto.key_values.location : null;
+    // let location = createRecommendationV2Dto.key_values ? createRecommendationV2Dto.key_values.location : null;
     let imageCoverUrl = null;
     let acceptVoucher = false;
     let cuisine = createRecommendationV2Dto.key_values ? createRecommendationV2Dto.key_values.cuisine : null;
@@ -65,9 +66,10 @@ export class RecommendationService {
     const response =  await axios.get(url);
     if (response.status === 200) {
       res = response.data;
-      priceAndPricingType = res.data.attributes.price_and_pricing_type;
-      acceptVoucher  = res.data.attributes.accept_voucher;
-      names = res.data.attributes.names;
+      priceAndPricingType = res.data.attributes.price_and_pricing_type || null;
+      acceptVoucher  = res.data.attributes.accept_voucher || null;
+      names = res.data.attributes.names || null;
+      location = res.data.attributes.primary_location || null;
     }
     if (!reviewCount) {
       reviewCount = res.data.attributes.reviews_count;
@@ -117,8 +119,8 @@ export class RecommendationService {
   ): Promise<any> {
     let result;
     let existingRecommendation = await this.recommendationModel
-      .find({ clevertapId: clevertapId })
-      .sort({ createdDate: -1 }) // order desc
+      .find({ clevertap_id: clevertapId })
+      .sort({ created_date: -1 }) // order desc
       .exec();
     if (!page || !size) {
       page = 1;
