@@ -13,7 +13,7 @@ import { RecommendationControllerV2 } from './controller/recommendation/recommen
   imports: [MongooseModule.forRoot(`${process.env.MONGO_DB_URI}`,{dbName: 'recommendations'}),
   MongooseModule.forFeature([{ name: 'Recommendation', schema: RecommendationSchema }]),
   LoggerModule.forRoot()],
-  controllers: [AppController,RecommendationController, RecommendationControllerV2],
-  providers: [AppService,RecommendationService, RecommendationControllerV2],
+  controllers: [AppController,RecommendationController],
+  providers: [AppService,RecommendationService],
 })
 export class AppModule {}
