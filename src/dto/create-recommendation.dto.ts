@@ -6,14 +6,10 @@ export class CreateRecommendationDto {
   })
   clevertapId: string;
 
-  @ApiPropertyOptional({
-    example: [234,557,889],
-  })
+  @ApiPropertyOptional({})
   restaurantId: string;
 
-  @ApiPropertyOptional({
-    example: [100,200,300],
-  })
+  @ApiPropertyOptional({})
   
   cuisineId: string;
 
@@ -29,6 +25,24 @@ export class keyValuesVm {
 
   @ApiProperty({})
   cuisineId: string;
+
+  @ApiProperty({})
+  cuisine: string;
+
+  @ApiProperty({})
+  name: string;
+
+  @ApiProperty({})
+  imageCoverUrl: string;
+
+  @ApiProperty({})
+  location: string;
+
+  @ApiProperty({})
+  reviewsCount: string;
+
+  @ApiProperty({})
+  reviewsScore: string;
 
   @ApiProperty({})
   restaurantId: string;
