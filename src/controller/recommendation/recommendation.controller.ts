@@ -8,7 +8,7 @@ import {
   Query,
   Res,
 } from '@nestjs/common';
-import { CreateRecommendationDto } from 'src/dto/create-recommendation.dto';
+import { CreateRecommendationV2Dto } from 'src/dto/create-recommendation.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { RecommendationService } from 'src/service/recommendation/recommendation.service';
 import { PaginationRecommendationDto } from '../../dto/pagination-recommendation.dto';
@@ -22,11 +22,11 @@ export class RecommendationController {
   @Post()
   async insertRecommendation(
     @Res() response,
-    @Body() createRecommendationDto: CreateRecommendationDto,
+    @Body() createRecommendationDto: CreateRecommendationV2Dto,
   ) {
     try {
       const Recommendation =
-        await this.recommendationService.createRecommendation(
+        await this.recommendationService.createRecommendationV2(
           createRecommendationDto,
         );
       return response.status(HttpStatus.CREATED).json({
