@@ -32,12 +32,14 @@ export class RecommendationController {
       return response.status(HttpStatus.CREATED).json({
         message: 'success',
         statusCode: 201,
+        succcess: true,
         Recommendation,
       });
     } catch (err) {
       return response.status(HttpStatus.BAD_REQUEST).json({
         statusCode: 400,
         message: 'Error: Recommendation not created!',
+        succcess: false,
         error: 'Bad Request',
       });
     }
@@ -50,18 +52,20 @@ export class RecommendationController {
     @Query() { page, size }: PaginationRecommendationDto,
   ) {
     try {
-      const recommendation = await this.recommendationService.getClevertapId(clevertapId, page, size);
-      if (recommendation.length) {
+      const data = await this.recommendationService.getClevertapId(clevertapId, page, size);
+      if (data.length) {
         return response.status(HttpStatus.OK).json({
-          message: 'success',
+          message: 'ok',
+          succcess: true,
           statusCode: 200,
-          recommendation,
+          data,
         });
       } else {
         return response.status(HttpStatus.NOT_FOUND).json({
           message: 'Recommendation Not Found',
           statusCode: 404,
-          recommendation,
+          succcess: false,
+          data,
         });
       }
       
