@@ -52,7 +52,7 @@ export class RecommendationService {
     const clevertapId = createRecommendationV2Dto.profiles[0] ? createRecommendationV2Dto.profiles[0].objectId : null;
     const userId = createRecommendationV2Dto.profiles[0] ? createRecommendationV2Dto.profiles[0].key_values.clevertapId : 0;
 
-    let name = createRecommendationV2Dto.key_values ? createRecommendationV2Dto.key_values.name : null;
+    let name = createRecommendationV2Dto.profiles[0] ? createRecommendationV2Dto.profiles[0].key_values.name : null;
     let reviewScore = createRecommendationV2Dto.key_values ? createRecommendationV2Dto.key_values.reviewsScore : null;
     let reviewCount = createRecommendationV2Dto.key_values ? createRecommendationV2Dto.key_values.reviewsCount : null;
     // let location = createRecommendationV2Dto.key_values ? createRecommendationV2Dto.key_values.location : null;
@@ -71,6 +71,7 @@ export class RecommendationService {
       names = res.data.attributes.names || null;
       location = res.data.attributes.primary_location || null;
     }
+    console.log('response----------', response.status);
     if (!reviewCount) {
       reviewCount = res.data.attributes.reviews_count;
     }
