@@ -48,7 +48,7 @@ export class RecommendationService {
     let names;
     let location;
     const cuisineId = createRecommendationV2Dto.key_values ? createRecommendationV2Dto.key_values.cuisineId : 0;
-    const restaurantId = createRecommendationV2Dto.key_values ? createRecommendationV2Dto.key_values.restaurantId : 0;
+    const restaurantId = createRecommendationV2Dto.profiles[0] ? createRecommendationV2Dto.profiles[0].key_values.restaurantId: 0;
     const clevertapId = createRecommendationV2Dto.profiles[0] ? createRecommendationV2Dto.profiles[0].objectId : null;
     const userId = createRecommendationV2Dto.profiles[0] ? createRecommendationV2Dto.profiles[0].key_values.clevertapId : 0;
 
