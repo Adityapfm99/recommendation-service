@@ -61,8 +61,8 @@ export class RecommendationService {
     let cuisine = createRecommendationV2Dto.key_values ? createRecommendationV2Dto.key_values.cuisine : null;
 
     // const url =`${process.env.HH_URI}${restaurantId}.json`
-    const url = `https://hhstaging.hungryhub.com/api/v5/restaurants/${restaurantId}.json`
-   
+    // const url = `https://hhstaging.hungryhub.com/api/v5/restaurants/${restaurantId}.json`;
+    const url = `https://hungryhub.com/api/v5/restaurants/${restaurantId}.json`;
     const response =  await axios.get(url);
     if (response.status === 200) {
       res = response.data;
@@ -92,7 +92,8 @@ export class RecommendationService {
     if (!cuisine) {
       cuisine = res.data.attributes.primary_cuisine;
     }
-    newRecommendation = await this.recommendationModel.create({
+    if (restaurantId && response.status === 200) {
+      newRecommendation = await this.recommendationModel.create({
         cuisine_id: cuisineId,
         primary_cuisine: cuisine,
         restaurant_id: restaurantId,
@@ -109,6 +110,7 @@ export class RecommendationService {
         price_and_pricing_type: priceAndPricingType,
         image_cover_url: imageCoverUrl,
       });
+    }
     return newRecommendation;
   }
 
