@@ -61,7 +61,7 @@ export class RecommendationService {
     let cuisine = createRecommendationV2Dto.key_values ? createRecommendationV2Dto.key_values.cuisine : null;
 
     // const url =`${process.env.HH_URI}${restaurantId}.json`
-    const url = `https://hungryhub.com/api/v5/restaurants/${restaurantId}.json`
+    const url = `https://hhstaging.hungryhub.com/api/v5/restaurants/${restaurantId}.json`
    
     const response =  await axios.get(url);
     if (response.status === 200) {
