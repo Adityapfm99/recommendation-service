@@ -6,12 +6,14 @@ import {
   Param,
   Post,
   Query,
+  Req,
   Res,
 } from '@nestjs/common';
 import { CreateRecommendationV2Dto } from 'src/dto/create-recommendation.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { PaginationRecommendationDto } from '../../dto/pagination-recommendation.dto';
 import { RecommendationServiceV2 } from '../../service/recommendation/recommendation.serviceV2';
+import { request } from 'express';
 
 
 @ApiTags('Recommendation v2')
@@ -46,11 +48,13 @@ export class RecommendationControllerV2 {
   @Get('/:clevertapId')
   async getClevertap(
     @Res() response,
+    @Req() request,
     @Param('clevertapId') clevertapId: string,
     @Query() { page, size }: PaginationRecommendationDto,
   ) {
+    const locale = request.headers['x-hh-languange'];
     try {
-      const data = await this.recommendationServiceV2.getClevertapId(clevertapId, page, size);
+      const data = await this.recommendationServiceV2.getClevertapId(clevertapId, page, size,locale);
       if (data.length) {
         return response.status(HttpStatus.OK).json({
           // message: 'success',
