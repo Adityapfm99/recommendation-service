@@ -62,6 +62,7 @@ export class RecommendationServiceV2 {
 
     // const url =`${process.env.HH_URI}${restaurantId}.json`
     const url = `https://hungryhub.com/api/v5/restaurants/${restaurantId}.json`;
+    
     const response =  await axios.get(url);
     if (response.status === 200) {
       res = response.data;
@@ -130,32 +131,45 @@ export class RecommendationServiceV2 {
     }
     let attributes;
     let data = []
+    let multiName;
     result = existingRecommendation.slice((page - 1) * size, page * size);
+    const header = {
+        'Content-Type': 'application/json',
+        'x-hh-languange': locale,
+};
     if (result.length) {
       for (const item of result) {
-        const url = `https://hhstaging.hungryhub.com/api/v5/restaurants/1001.json&locale=${locale}`;
-        const response =  await axios.get(url);
+        const url = `https://hhstaging.hungryhub.com/api/v5/restaurants/${item.restaurant_id}.json`;
+          const response =  await axios.get(url, {
+            headers: header,
+        });
+
         if (response.status === 200) { 
            
             let resp = response.data;
+            if (locale === 'en') {
+                multiName = resp.data.attributes.names.en;
+            } else {
+                multiName = resp.data.attributes.names.th;
+            }   
             attributes = {
                 "id": item.restaurant_id,
                 "type": resp.data.type,
                 "attributes": {
                   "start_date": "2020-06-10",
-                  "total_locations": null,
-                  "total_reviews": 0,
-                  "avg_reviews": 0.0,
+                  "total_locations": resp.data.attributes.locations.length,
+                  "total_reviews": resp.data.attributes.reviews_count,
+                  "avg_reviews": resp.meta.reviews.average,
                   "branch_id": null,
-                  "cuisine": item.cuisine,
-                  "location": item.location,
+                  "cuisine": resp.data.attributes.cuisine,
+                  "location": resp.data.attributes.location,
                   "rank": 3,
-                  "description": null,
+                  "description": resp.data.attributes.description,
                   "custom_text": null,
-                  "accept_voucher": item.accept_voucher,
-                  "name": resp.data.attributes.name,
+                  "accept_voucher": resp.data.attributes.accept_voucher,
+                  "name": multiName,
                   "names": item.names,
-                  "total_covers": 0,
+                  "total_covers": resp.data.attributes.total_covers,
                   "restaurant_id": item.restaurant_id,
                   "restaurant_encrypted_id": resp.data.attributes.slug,
                   "link": resp.data.attributes.link,
@@ -165,10 +179,9 @@ export class RecommendationServiceV2 {
                     "square": resp.data.attributes.image_cover_url.thumb,
                     "original":resp.data.attributes.image_cover_url.thumb
                   },
-                  "last_booking_was_made": null,
-                  "package_types": [
-                    ""
-                  ],
+                  "last_booking_was_made": resp.data.attributes.last_booking_was_made,
+                  "package_types": resp.data.attributes.available_package_types,
+                  
                   "long_package_types": [
                     {
                       "type_short": "",
