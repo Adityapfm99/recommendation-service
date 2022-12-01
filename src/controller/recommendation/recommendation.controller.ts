@@ -13,7 +13,6 @@ import { ApiTags } from '@nestjs/swagger';
 import { RecommendationService } from 'src/service/recommendation/recommendation.service';
 import { PaginationRecommendationDto } from '../../dto/pagination-recommendation.dto';
 
-
 @ApiTags('Recommendation v1')
 @Controller('api/v1/recommendation')
 export class RecommendationController {
