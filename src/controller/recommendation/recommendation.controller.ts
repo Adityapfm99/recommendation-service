@@ -32,14 +32,14 @@ export class RecommendationController {
       return response.status(HttpStatus.CREATED).json({
         message: 'success',
         statusCode: 201,
-        succcess: true,
+        success: true,
         Recommendation,
       });
     } catch (err) {
       return response.status(HttpStatus.BAD_REQUEST).json({
         statusCode: 400,
         message: 'Error: Recommendation not created!',
-        succcess: false,
+        success: false,
         error: 'Bad Request',
       });
     }
@@ -56,7 +56,7 @@ export class RecommendationController {
       if (data.length) {
         return response.status(HttpStatus.OK).json({
           message: 'ok',
-          succcess: true,
+          success: true,
           statusCode: 200,
           data,
         });
@@ -64,7 +64,7 @@ export class RecommendationController {
         return response.status(HttpStatus.NOT_FOUND).json({
           message: 'Recommendation Not Found',
           statusCode: 404,
-          succcess: false,
+          success: false,
           data,
         });
       }
