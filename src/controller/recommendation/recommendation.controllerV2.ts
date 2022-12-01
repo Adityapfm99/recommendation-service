@@ -10,14 +10,14 @@ import {
 } from '@nestjs/common';
 import { CreateRecommendationV2Dto } from 'src/dto/create-recommendation.dto';
 import { ApiTags } from '@nestjs/swagger';
-import { RecommendationService } from 'src/service/recommendation/recommendation.service';
 import { PaginationRecommendationDto } from '../../dto/pagination-recommendation.dto';
+import { RecommendationServiceV2 } from '../../service/recommendation/recommendation.serviceV2';
 
 
 @ApiTags('Recommendation v2')
 @Controller('api/v2/recommendation')
 export class RecommendationControllerV2 {
-  constructor(private readonly recommendationService: RecommendationService) {}
+  constructor(private readonly recommendationServiceV2: RecommendationServiceV2) {}
 
   @Post()
   async insertRecommendation(
@@ -26,7 +26,7 @@ export class RecommendationControllerV2 {
   ) {
     try {
       const Recommendation =
-        await this.recommendationService.createRecommendationV2(
+        await this.recommendationServiceV2.createRecommendationV2(
           createRecommendationDto,
         );
       return response.status(HttpStatus.CREATED).json({
@@ -50,18 +50,22 @@ export class RecommendationControllerV2 {
     @Query() { page, size }: PaginationRecommendationDto,
   ) {
     try {
-      const recommendation = await this.recommendationService.getClevertapId(clevertapId, page, size);
-      if (recommendation.length) {
+      const data = await this.recommendationServiceV2.getClevertapId(clevertapId, page, size);
+      if (data.length) {
         return response.status(HttpStatus.OK).json({
-          message: 'success',
-          statusCode: 200,
-          recommendation,
+          // message: 'success',
+          // statusCode: 200,
+          data,
+          success : true,
+          
         });
       } else {
         return response.status(HttpStatus.NOT_FOUND).json({
-          message: 'Recommendation Not Found',
-          statusCode: 404,
-          recommendation,
+          // message: 'Recommendation Not Found',
+          // statusCode: 404,
+          data,
+          success : false,
+        
         });
       }
       

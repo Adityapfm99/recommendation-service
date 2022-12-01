@@ -10,8 +10,8 @@ import {
 } from '@nestjs/common';
 import { CreateRecommendationV2Dto } from 'src/dto/create-recommendation.dto';
 import { ApiTags } from '@nestjs/swagger';
-import { RecommendationService } from 'src/service/recommendation/recommendation.service';
 import { PaginationRecommendationDto } from '../../dto/pagination-recommendation.dto';
+import { RecommendationService } from '../../service/recommendation/recommendation.service';
 
 @ApiTags('Recommendation v1')
 @Controller('api/v1/recommendation')
