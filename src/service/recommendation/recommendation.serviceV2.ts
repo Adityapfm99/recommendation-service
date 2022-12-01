@@ -116,7 +116,8 @@ export class RecommendationServiceV2 {
   async getClevertapId(
     clevertapId: string,
     page: number,
-    size: number
+    size: number,
+    locale: string
   ): Promise<any> {
     let result;
     let existingRecommendation = await this.recommendationModel
@@ -132,7 +133,7 @@ export class RecommendationServiceV2 {
     result = existingRecommendation.slice((page - 1) * size, page * size);
     if (result.length) {
       for (const item of result) {
-        const url = `https://hhstaging.hungryhub.com/api/v5/restaurants/${item.restaurant_id}.json`;
+        const url = `https://hhstaging.hungryhub.com/api/v5/restaurants/1001.json&locale=${locale}`;
         const response =  await axios.get(url);
         if (response.status === 200) { 
            
@@ -156,7 +157,7 @@ export class RecommendationServiceV2 {
                   "names": item.names,
                   "total_covers": 0,
                   "restaurant_id": item.restaurant_id,
-                  "restaurant_encrypted_id": resp.data.attributes.name,
+                  "restaurant_encrypted_id": resp.data.attributes.slug,
                   "link": resp.data.attributes.link,
                   "cover": {
                     "thumb": resp.data.attributes.image_cover_url.thumb,
