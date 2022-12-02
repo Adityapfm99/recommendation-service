@@ -138,7 +138,7 @@ export class RecommendationServiceV2 {
     }
     const header = {
         'Content-Type': 'application/json',
-        'x-hh-languange': locale,
+        'x-hh-language': locale,
 };
     if (result.length) {
       for (const item of result) {

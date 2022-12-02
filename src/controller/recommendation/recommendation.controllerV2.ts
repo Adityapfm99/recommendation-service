@@ -52,7 +52,7 @@ export class RecommendationControllerV2 {
     @Param('clevertapId') clevertapId: string,
     @Query() { page, size }: PaginationRecommendationDto,
   ) {
-    const locale = request.headers['x-hh-languange'];
+    const locale = request.headers['x-hh-language'];
     try {
       const data = await this.recommendationServiceV2.getClevertapId(clevertapId, page, size,locale);
       if (data.length) {
