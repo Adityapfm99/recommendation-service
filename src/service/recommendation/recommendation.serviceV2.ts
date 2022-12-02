@@ -42,12 +42,7 @@ export class RecommendationServiceV2 {
 };
     if (result.length) {
       for (const item of result) {
-        // console.log(item.primary_cuisine.map(2))
-        // const url = `https://hhstaging.hungryhub.com/api/v5/restaurants/${item.restaurant_id}.json`;
-        //   const response =  await axios.get(url, {
-        //     headers: header,
-        // });
-            // const cuisineUrl = `https://hhstaging.hungryhub.com/api/v5/restaurants/recommendation.json&page[number]=1&page[size]=2&cuisine_id_eq=${[resp.data.attributes.primary_cuisine.id]}`;
+       
             const cuisineUrl = `https://hhstaging.hungryhub.com/api/v5/restaurants/recommendation.json?page[size]=${size}&page[number]=${page}&cuisine_id_eq=${item.cuisine_id}`;
             const response = await axios.get(cuisineUrl, {
                 headers: header,
