@@ -47,22 +47,23 @@ export class RecommendationService {
     let res;
     let names;
     let location;
-    const cuisineId = createRecommendationV2Dto.key_values ? createRecommendationV2Dto.key_values.cuisineId : 0;
+
+    let cuisineId;
     const restaurantId = createRecommendationV2Dto.profiles[0] ? createRecommendationV2Dto.profiles[0].key_values.restaurantId: 0;
     const clevertapId = createRecommendationV2Dto.profiles[0] ? createRecommendationV2Dto.profiles[0].objectId : null;
     const userId = createRecommendationV2Dto.profiles[0] ? createRecommendationV2Dto.profiles[0].key_values.clevertapId : 0;
-
+    let rank = createRecommendationV2Dto.key_values ? createRecommendationV2Dto.key_values.rank : null;
+    let startDate = createRecommendationV2Dto.key_values ? createRecommendationV2Dto.key_values.startDate : null;
     let name = createRecommendationV2Dto.profiles[0] ? createRecommendationV2Dto.profiles[0].key_values.name : null;
     let reviewScore = createRecommendationV2Dto.key_values ? createRecommendationV2Dto.key_values.reviewsScore : null;
     let reviewCount = createRecommendationV2Dto.key_values ? createRecommendationV2Dto.key_values.reviewsCount : null;
-    // let location = createRecommendationV2Dto.key_values ? createRecommendationV2Dto.key_values.location : null;
     let imageCoverUrl = null;
     let acceptVoucher = false;
     let cuisine = createRecommendationV2Dto.key_values ? createRecommendationV2Dto.key_values.cuisine : null;
 
     // const url =`${process.env.HH_URI}${restaurantId}.json`
     // const url = `https://hhstaging.hungryhub.com/api/v5/restaurants/${restaurantId}.json`;
-    const url = `https://hungryhub.com/api/v5/restaurants/${restaurantId}.json`;
+    const url = `https://hhstaging.hungryhub.com/api/v5/restaurants/${restaurantId}.json`;
     const response =  await axios.get(url);
     if (response.status === 200) {
       res = response.data;
@@ -71,7 +72,7 @@ export class RecommendationService {
       names = res.data.attributes.names || null;
       location = res.data.attributes.primary_location || null;
     }
-    console.log('response----------', response.status);
+    cuisineId = res.data.attributes.primary_cuisine.id || null;
     if (!reviewCount) {
       reviewCount = res.data.attributes.reviews_count;
     }
@@ -105,6 +106,8 @@ export class RecommendationService {
         reviews_count: reviewCount,
         reviews_score: reviewScore,
         primary_location: location,
+        rank: rank,
+        start_date: startDate,
         created_date: now(),
         updated_date: now(),
         accept_voucher: acceptVoucher,

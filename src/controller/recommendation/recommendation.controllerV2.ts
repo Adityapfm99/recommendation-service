@@ -21,30 +21,6 @@ import { request } from 'express';
 export class RecommendationControllerV2 {
   constructor(private readonly recommendationServiceV2: RecommendationServiceV2) {}
 
-  @Post()
-  async insertRecommendation(
-    @Res() response,
-    @Body() createRecommendationDto: CreateRecommendationV2Dto,
-  ) {
-    try {
-      const Recommendation =
-        await this.recommendationServiceV2.createRecommendationV2(
-          createRecommendationDto,
-        );
-      return response.status(HttpStatus.CREATED).json({
-        message: 'success',
-        statusCode: 201,
-        Recommendation,
-      });
-    } catch (err) {
-      return response.status(HttpStatus.BAD_REQUEST).json({
-        statusCode: 400,
-        message: 'Error: Recommendation not created!',
-        error: 'Bad Request',
-      });
-    }
-  }
-
   @Get('/:clevertapId')
   async getClevertap(
     @Res() response,
