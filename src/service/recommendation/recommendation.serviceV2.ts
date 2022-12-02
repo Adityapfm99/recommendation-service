@@ -133,6 +133,9 @@ export class RecommendationServiceV2 {
     let data = []
     let multiName;
     result = existingRecommendation.slice((page - 1) * size, page * size);
+    if (!locale) {
+      locale = 'en'
+    }
     const header = {
         'Content-Type': 'application/json',
         'x-hh-languange': locale,

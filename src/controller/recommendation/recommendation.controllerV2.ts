@@ -57,16 +57,12 @@ export class RecommendationControllerV2 {
       const data = await this.recommendationServiceV2.getClevertapId(clevertapId, page, size,locale);
       if (data.length) {
         return response.status(HttpStatus.OK).json({
-          // message: 'success',
-          // statusCode: 200,
           data,
           success : true,
           
         });
       } else {
         return response.status(HttpStatus.NOT_FOUND).json({
-          // message: 'Recommendation Not Found',
-          // statusCode: 404,
           data,
           success : false,
         
