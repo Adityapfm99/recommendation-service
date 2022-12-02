@@ -213,7 +213,8 @@ export class RecommendationServiceV2 {
         data.push(attributes)
       }
     }
-    const res = data;
+    const unique = [...new Map(data.map((m) => [m.id, m])).values()];
+    const res = unique;
     if (!result) {
       throw new NotFoundException(`Recommendation #${clevertapId} not found`);
     }
