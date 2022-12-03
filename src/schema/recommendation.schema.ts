@@ -31,6 +31,12 @@ export class Recommendation {
     @Prop()
     reviews_score: string;
 
+    @Prop()
+    rank: string;
+
+    @Prop()
+    start_date: string;
+
     @Prop({type: Map})
     price_and_pricing_type: string;
 

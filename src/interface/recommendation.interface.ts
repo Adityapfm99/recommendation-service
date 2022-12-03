@@ -9,6 +9,10 @@ export interface IRecommendation extends Document{
 
     readonly names: string;
 
+    readonly rank: string;
+
+    readonly start_date: string;
+
     readonly name: string;
 
     readonly image_cover_url: any;

@@ -6,62 +6,42 @@ import {
   Param,
   Post,
   Query,
+  Req,
   Res,
 } from '@nestjs/common';
 import { CreateRecommendationV2Dto } from 'src/dto/create-recommendation.dto';
 import { ApiTags } from '@nestjs/swagger';
-import { RecommendationService } from 'src/service/recommendation/recommendation.service';
 import { PaginationRecommendationDto } from '../../dto/pagination-recommendation.dto';
+import { RecommendationServiceV2 } from '../../service/recommendation/recommendation.serviceV2';
+import { request } from 'express';
 
 
 @ApiTags('Recommendation v2')
 @Controller('api/v2/recommendation')
 export class RecommendationControllerV2 {
-  constructor(private readonly recommendationService: RecommendationService) {}
-
-  @Post()
-  async insertRecommendation(
-    @Res() response,
-    @Body() createRecommendationDto: CreateRecommendationV2Dto,
-  ) {
-    try {
-      const Recommendation =
-        await this.recommendationService.createRecommendationV2(
-          createRecommendationDto,
-        );
-      return response.status(HttpStatus.CREATED).json({
-        message: 'success',
-        statusCode: 201,
-        Recommendation,
-      });
-    } catch (err) {
-      return response.status(HttpStatus.BAD_REQUEST).json({
-        statusCode: 400,
-        message: 'Error: Recommendation not created!',
-        error: 'Bad Request',
-      });
-    }
-  }
+  constructor(private readonly recommendationServiceV2: RecommendationServiceV2) {}
 
   @Get('/:clevertapId')
   async getClevertap(
     @Res() response,
+    @Req() request,
     @Param('clevertapId') clevertapId: string,
     @Query() { page, size }: PaginationRecommendationDto,
   ) {
+    const locale = request.headers['x-hh-language'];
     try {
-      const recommendation = await this.recommendationService.getClevertapId(clevertapId, page, size);
-      if (recommendation.length) {
+      const data = await this.recommendationServiceV2.getClevertapId(clevertapId, page, size,locale);
+      if (data.length) {
         return response.status(HttpStatus.OK).json({
-          message: 'success',
-          statusCode: 200,
-          recommendation,
+          data,
+          success : true,
+          
         });
       } else {
         return response.status(HttpStatus.NOT_FOUND).json({
-          message: 'Recommendation Not Found',
-          statusCode: 404,
-          recommendation,
+          data,
+          success : false,
+        
         });
       }
       

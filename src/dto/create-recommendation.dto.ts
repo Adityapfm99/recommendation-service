@@ -27,6 +27,12 @@ export class keyValuesVm {
   cuisineId: string;
 
   @ApiProperty({})
+  rank: string;
+
+  @ApiProperty({})
+  startDate: string;
+
+  @ApiProperty({})
   cuisine: string;
 
   @ApiProperty({})
