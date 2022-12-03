@@ -19,13 +19,13 @@ export class RecommendationController {
   constructor(private readonly recommendationService: RecommendationService) {}
 
   @Post()
-  async insertRecommendation(
+  async jobQueue(
     @Res() response,
     @Body() createRecommendationDto: CreateRecommendationV2Dto,
   ) {
     try {
       const Recommendation =
-        await this.recommendationService.createRecommendationV2(
+        await this.recommendationService.jobQueue(
           createRecommendationDto,
         );
       return response.status(HttpStatus.CREATED).json({
@@ -44,32 +44,4 @@ export class RecommendationController {
     }
   }
 
-  @Get('/:clevertapId')
-  async getClevertap(
-    @Res() response,
-    @Param('clevertapId') clevertapId: string,
-    @Query() { page, size }: PaginationRecommendationDto,
-  ) {
-    try {
-      const data = await this.recommendationService.getClevertapId(clevertapId, page, size);
-      if (data.length) {
-        return response.status(HttpStatus.OK).json({
-          message: 'ok',
-          success: true,
-          statusCode: 200,
-          data,
-        });
-      } else {
-        return response.status(HttpStatus.NOT_FOUND).json({
-          message: 'Recommendation Not Found',
-          statusCode: 404,
-          success: false,
-          data,
-        });
-      }
-      
-    } catch (err) {
-      return response.status(err.status).json(err.response);
-    }
-  }
 }

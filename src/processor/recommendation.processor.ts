@@ -1,6 +1,7 @@
-import { Process, Processor } from '@nestjs/bull';
+import { InjectQueue, Process, Processor } from '@nestjs/bull';
 import { IRecommendation } from 'src/interface/recommendation.interface';
 import { Model,now } from "mongoose";
+import moment = require('moment');
 import { InjectModel } from '@nestjs/mongoose';
 import { Job } from 'bull';
 import axios from "axios";
@@ -20,6 +21,8 @@ export class RecommendationProcessor {
         let names;
         let location;
 
+        const currDate = new Date();
+        const now = moment(currDate).format('YYYY-MM-DD HH:mm:ss');
         let cuisineId;
         const restaurantId = job.data.profiles[0] ? job.data.profiles[0].key_values.restaurantId: 0;
         const clevertapId = job.data.profiles[0] ? job.data.profiles[0].objectId : null;
@@ -78,8 +81,8 @@ export class RecommendationProcessor {
                 primary_location: location,
                 rank: rank,
                 start_date: startDate,
-                created_date: now(),
-                updated_date: now(),
+                created_date:  moment(now).toDate(),
+                updated_date:  moment(now).toDate(),
                 accept_voucher: acceptVoucher,
                 price_and_pricing_type: priceAndPricingType,
                 image_cover_url: imageCoverUrl,
