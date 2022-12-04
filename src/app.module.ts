@@ -1,7 +1,8 @@
-import { Module } from '@nestjs/common';
+import { Module, CacheModule } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import * as redisStore from 'cache-manager-redis-store';
 import { LoggerModule } from 'nestjs-pino';
 require('dotenv').config()
 import { RecommendationController } from './controller/recommendation/recommendation.controller';
@@ -25,6 +26,13 @@ import { RecommendationProcessor } from './processor/recommendation.processor';
     }),
     BullModule.registerQueue({
       name: 'recommendation-queue'
+    }),
+    CacheModule.register({ 
+      cache: redisStore, 
+      isGlobal: true,
+      host: process.env.REDIS_HOST,
+      ttl: 300000, // expire 5 minutes
+      port:  Number(process.env.REDIS_PORT)
     })
   ],
   controllers: [AppController, RecommendationController, RecommendationControllerV2],

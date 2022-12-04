@@ -1,36 +1,30 @@
-import {
-  Injectable,
-} from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { CreateRecommendationV2Dto } from "src/dto/create-recommendation.dto";
-import { InjectQueue, OnQueueCleaned, OnQueueCompleted } from "@nestjs/bull";
+import { InjectQueue } from "@nestjs/bull";
 import { Queue } from "bull";
-import { delay } from "rxjs";
-
 
 @Injectable()
 export class RecommendationService {
   constructor(
-    @InjectQueue('recommendation-queue')
+    @InjectQueue("recommendation-queue")
     private recommendationQueue: Queue
   ) {}
 
-  async jobQueue(
-    createRecommendationV2Dto: CreateRecommendationV2Dto
-  ) {
+  async jobQueue(createRecommendationV2Dto: CreateRecommendationV2Dto) {
     const jobOptions = {
       removeOnComplete: false,
       removeOnFail: false,
-      delay: 5000,
-      
-      
+      delay: 2000, // delay 2 seconds
+    };
+
+    await this.recommendationQueue.add(
+      "recommendation",
+      createRecommendationV2Dto,
+      jobOptions
+    );
+    this.recommendationQueue.clean(300000, "completed", 100); // expire 5 minutes when completed
+    this.recommendationQueue.on("cleaned", function (jobs, type) {
+      console.log("Cleaned %s %s jobs", jobs.length, type);
+    });
   }
-  
-    const job = await this.recommendationQueue.add('recommendation', createRecommendationV2Dto, jobOptions);
-
-
- 
-  }
-
-  
-
 }
