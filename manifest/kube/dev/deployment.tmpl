@@ -28,6 +28,9 @@ spec:
         imagePullPolicy: Always
         ports:
         - containerPort: 3000
+        envFrom:
+        - configMapRef:
+            name: recommendation-service
         resources:
           requests:
             memory: 1000Mi
