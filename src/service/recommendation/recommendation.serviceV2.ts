@@ -31,6 +31,7 @@ export class RecommendationServiceV2 {
     }
     let attributes;
     let data = []
+    let resp;
     let multiName;
     result = existingRecommendation.slice((page - 1) * size, page * size);
     if (!locale) {
@@ -42,47 +43,50 @@ export class RecommendationServiceV2 {
 };
     if (result.length) {
       for (const item of result) {
-       
-            const cuisineUrl = `https://hhstaging.hungryhub.com/api/v5/restaurants/recommendation.json?page[size]=${size}&page[number]=${page}&cuisine_id_eq=${item.cuisine_id}`;
+
+            const cuisineUrl = `https://hhstaging.hungryhub.com/api/v5/restaurants/recommendation.json?page[size]=10&page[number]=1&cuisine_id_eq=${item.cuisine_id}`;
+            // const cuisineUrl = `https://hhstaging.hungryhub.com/api/v5/restaurants/${item.restaurant_id}.json`;
             const response = await axios.get(cuisineUrl, {
                 headers: header,
               });
-            if (response && response.status === 200) {
-                let resp = response.data;
+              // console.log(response)
+            if (response.status === 200) {
+                resp = response.data.data[0];
+
                 if (locale === 'en') {
-                    multiName = resp.data.attributes.names.en;
+                    multiName = resp.attributes.names.en;
                 } else {
-                    multiName = resp.data.attributes.names.th;
+                    multiName = resp.attributes.names.th;
                 } 
                 attributes = {
                     "id": item.restaurant_id,
-                    "type": resp.data.type,
+                    "type": resp.type,
                     "attributes": {
                       "start_date": item.start_date,
-                      "total_locations": resp.data.attributes.locations.length,
-                      "total_reviews": resp.data.attributes.reviews_count,
-                      "avg_reviews": resp.meta.reviews.average,
+                      "total_locations": resp.attributes.locations.length,
+                      "total_reviews": resp.attributes.reviews_count,
+                      "avg_reviews": null,
                       "branch_id": null,
-                      "cuisine": resp.data.attributes.cuisine,
-                      "location": resp.data.attributes.location,
+                      "cuisine": resp.attributes.cuisine,
+                      "location": resp.attributes.location,
                       "rank": item.rank,
-                      "description": resp.data.attributes.description,
+                      "description": resp.attributes.description,
                       "custom_text": null,
-                      "accept_voucher": resp.data.attributes.accept_voucher,
+                      "accept_voucher": resp.attributes.accept_voucher,
                       "name": multiName,
                       "names": item.names,
-                      "total_covers": resp.data.attributes.total_covers,
+                      "total_covers": resp.attributes.total_covers,
                       "restaurant_id": item.restaurant_id,
-                      "restaurant_encrypted_id": resp.data.attributes.slug,
-                      "link": resp.data.attributes.link,
+                      "restaurant_encrypted_id": resp.attributes.slug,
+                      "link": resp.attributes.link,
                       "cover": {
-                        "thumb": resp.data.attributes.image_cover_url.thumb,
-                        "slide_thumb": resp.data.attributes.image_cover_url.thumb,
-                        "square": resp.data.attributes.image_cover_url.thumb,
-                        "original":resp.data.attributes.image_cover_url.thumb
+                        "thumb": resp.attributes.image_cover_url.thumb,
+                        "slide_thumb": resp.attributes.image_cover_url.thumb,
+                        "square": resp.attributes.image_cover_url.thumb,
+                        "original":resp.attributes.image_cover_url.thumb
                       },
-                      "last_booking_was_made": resp.data.attributes.last_booking_was_made,
-                      "package_types": resp.data.attributes.available_package_types,
+                      "last_booking_was_made": resp.attributes.last_booking_was_made,
+                      "package_types": resp.attributes.available_package_types,
                       
                       "long_package_types": [
                         {
@@ -91,18 +95,18 @@ export class RecommendationServiceV2 {
                         }
                       ],
                       "price": {
-                        "amount": resp.data.attributes.price_and_pricing_type.amount,
+                        "amount": resp.attributes.price_and_pricing_type.amount,
                         "currency": "THB",
                         "symbol": "฿",
-                        "format": `${resp.data.attributes.price_and_pricing_type.amount}฿`
+                        "format": `${resp.attributes.price_and_pricing_type.amount}฿`
                       },
                       "price_v2": {
-                        "amount": resp.data.attributes.price_and_pricing_type.amount,
+                        "amount": resp.attributes.price_and_pricing_type.amount,
                         "currency": "THB",
                         "symbol": "฿",
-                        "format": `${resp.data.attributes.price_and_pricing_type.amount}฿`
+                        "format": `${resp.attributes.price_and_pricing_type.amount}฿`
                       },
-                      "pricing_type": resp.data.attributes.price_and_pricing_type.pricing_type,
+                      "pricing_type": resp.attributes.price_and_pricing_type.pricing_type,
                       "covid19_safety": false
                     },
                     
