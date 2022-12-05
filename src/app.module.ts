@@ -20,8 +20,10 @@ import { RecommendationProcessor } from './processor/recommendation.processor';
     LoggerModule.forRoot(),
     BullModule.forRoot({
       redis: {
-        host: process.env.REDIS_HOST,
-        port:  Number(process.env.REDIS_PORT)
+        // host: process.env.REDIS_HOST,
+        host:'dev-app-lru-redis.fhgftt.ng.0001.apse1.cache.amazonaws.com',
+        // port:  parseInt(process.env.REDIS_PORT)
+        port: 6379
       }
     }),
     BullModule.registerQueue({
@@ -30,9 +32,11 @@ import { RecommendationProcessor } from './processor/recommendation.processor';
     CacheModule.register({ 
       cache: redisStore, 
       isGlobal: true,
-      host: process.env.REDIS_HOST,
+      // host: process.env.REDIS_HOST,
+      host:'dev-app-lru-redis.fhgftt.ng.0001.apse1.cache.amazonaws.com',
       ttl: 300000, // expire 5 minutes
-      port:  Number(process.env.REDIS_PORT)
+      // port:  parseInt(process.env.REDIS_PORT)
+      port: 6379
     })
   ],
   controllers: [AppController, RecommendationController, RecommendationControllerV2],
