@@ -31,7 +31,7 @@ import { RecommendationProcessor } from './processor/recommendation.processor';
       cache: redisStore, 
       isGlobal: true,
       host: process.env.REDIS_HOST,
-      ttl: 300000, // expire 5 minutes
+      ttl: 86400000, // expire redis cache 1 day
       port:  parseInt(process.env.REDIS_PORT)
     })
   ],

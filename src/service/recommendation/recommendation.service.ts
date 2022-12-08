@@ -22,7 +22,7 @@ export class RecommendationService {
       createRecommendationV2Dto,
       jobOptions
     );
-    this.recommendationQueue.clean(300000, "completed", 100); // expire 5 minutes when completed
+    this.recommendationQueue.clean(86400000, "completed", 5000); // expire bull 1 day when completed
     this.recommendationQueue.on("cleaned", function (jobs, type) {
       console.log("Cleaned %s %s jobs", jobs.length, type);
     });

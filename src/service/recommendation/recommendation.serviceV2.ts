@@ -43,7 +43,7 @@ export class RecommendationServiceV2 {
     }
     let unique = [...new Set(data)];
 
-    const cuisineUrl = `https://hhstaging.hungryhub.com/api/v5/restaurants/recommendation.json?page%5Bsize%5D=${size}&page%5Bnumber%5D=${page}&cuisine_id_eq=${unique}`;
+    const cuisineUrl = `${process.env.HH_HOST}/api/v5/restaurants/recommendation.json?page%5Bsize%5D=${size}&page%5Bnumber%5D=${page}&cuisine_id_eq=${unique}`;
     const response = await axios.get(cuisineUrl, {
       headers: header,
     });
