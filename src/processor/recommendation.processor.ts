@@ -38,9 +38,7 @@ export class RecommendationProcessor {
         let acceptVoucher = false;
         let cuisine = job.data.key_values ? job.data.key_values.cuisine : null;
 
-        // const url =`${process.env.HH_URI}${restaurantId}.json`
-        // const url = `https://hhstaging.hungryhub.com/api/v5/restaurants/${restaurantId}.json`;
-        const url = `https://hhstaging.hungryhub.com/api/v5/restaurants/${restaurantId}.json`;
+        const url = `${process.env.HH_HOST}/api/v5/restaurants/${restaurantId}.json`;
         const response = await axios.get(url);
         if (response.data.success === true) {
             res = response.data;
