@@ -20,8 +20,8 @@ import { RecommendationProcessor } from './processor/recommendation.processor';
     MongooseModule.forFeature([{ name: 'Recommendation', schema: RecommendationSchema }]),
     // LoggerModule.forRoot(),
     LoggerModule.forRoot({
-			accessToken: 'fa5a4c2f2ed546118aa150a630fb11d0',
-			environment: 'development',
+			accessToken: process.env.TOKEN_ROLLBAR,
+			environment: process.env.ENVIRONMENT,
       captureUncaught: true,
       captureUnhandledRejections: true,
 		}),
