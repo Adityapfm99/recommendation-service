@@ -47,10 +47,12 @@
     "moment": "^2.29.4",
     "mongoose": "^6.2.9",
     "nestjs-pino": "^3.1.1",
+    "nestjs-rollbar": "^1.7.0",
     "pino-http": "^8.2.1",
     "pino-pretty": "^9.1.1",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
+    "rollbar": "^2.26.0",
     "rxjs": "^7.2.0"
   },
   "devDependencies": {

@@ -10,13 +10,14 @@ import {
 } from '@nestjs/common';
 import { CreateRecommendationV2Dto } from 'src/dto/create-recommendation.dto';
 import { ApiTags } from '@nestjs/swagger';
-import { PaginationRecommendationDto } from '../../dto/pagination-recommendation.dto';
+import { RollbarLogger } from 'nestjs-rollbar';
 import { RecommendationService } from '../../service/recommendation/recommendation.service';
 
 @ApiTags('Recommendation v1')
 @Controller('api/v1/recommendation')
 export class RecommendationController {
-  constructor(private readonly recommendationService: RecommendationService) {}
+  constructor(private readonly recommendationService: RecommendationService,
+              private readonly rollbarLogger: RollbarLogger) {}
 
   @Post()
   async jobQueue(
@@ -28,6 +29,7 @@ export class RecommendationController {
         await this.recommendationService.jobQueue(
           createRecommendationDto,
         );
+      // this.rollbarLogger.info(JSON.stringify(createRecommendationDto));
       return response.status(HttpStatus.CREATED).json({
         message: 'success',
         statusCode: 201,
@@ -35,6 +37,7 @@ export class RecommendationController {
         Recommendation,
       });
     } catch (err) {
+      this.rollbarLogger.error(err, 'ERROR, Recommendation not created!');
       return response.status(HttpStatus.BAD_REQUEST).json({
         statusCode: 400,
         message: 'Error: Recommendation not created!',
