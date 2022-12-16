@@ -5,19 +5,55 @@ import { now } from "mongoose";
 export class Recommendation {
 
     @Prop()
-    clevertapId: string;
+    clevertap_id: string;
 
     @Prop()
-    restaurantId: string;
+    restaurant_id: string;
 
     @Prop()
-    cuisineId: string;
+    cuisine_id: string;
+
+    @Prop({type: Map})
+    names: string;
+
+    @Prop()
+    name: string;
+
+    @Prop({type: Map})
+    primary_location: string;
+
+    @Prop({type: Map})
+    primary_cuisine: string;
+
+    @Prop()
+    reviews_count: string;
+
+    @Prop()
+    reviews_score: string;
+
+    @Prop()
+    rank: string;
+
+    @Prop()
+    start_date: string;
+
+    @Prop({type: Map})
+    price_and_pricing_type: string;
+
+    @Prop({type: Map})
+    image_cover_url:any;
+
+    @Prop()
+    accept_voucher : boolean;
+
+    @Prop()
+    user_id: string;
 
     @Prop({ type: Date, default: now() })
-    createdDate: Date;
+    created_date: Date;
 
     @Prop({ type: Date, default: now() })
-    updatedDate: Date;
+    updated_date: Date;
 
 }
 

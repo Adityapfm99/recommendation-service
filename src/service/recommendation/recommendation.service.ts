@@ -1,45 +1,30 @@
-import { BadRequestException, Injectable, NotFoundException} from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { CreateRecommendationDto } from 'src/dto/create-recommendation.dto';
-import { IRecommendation } from 'src/interface/recommendation.interface';
-import { Model, now } from 'mongoose';
+import { Injectable } from "@nestjs/common";
+import { CreateRecommendationV2Dto } from "src/dto/create-recommendation.dto";
+import { InjectQueue } from "@nestjs/bull";
+import { Queue } from "bull";
 
 @Injectable()
 export class RecommendationService {
   constructor(
-    @InjectModel('Recommendation')
-    private recommendationModel: Model<IRecommendation>,
+    @InjectQueue("recommendation-queue")
+    private recommendationQueue: Queue
   ) {}
 
-  async createRecommendation(
-    createRecommendationDto: CreateRecommendationDto,
-  ): Promise<IRecommendation> {  
-    let newRecommendation;
-    if (createRecommendationDto.cuisineId != '0' && createRecommendationDto.restaurantId != '0' && createRecommendationDto.clevertapId != '0') {
-       newRecommendation = await this.recommendationModel.create(
-        { cuisineId: createRecommendationDto.cuisineId,
-          restaurantId: createRecommendationDto.restaurantId,
-          clevertapId: createRecommendationDto.clevertapId,
-          createdDate: now(),
-          updatedDate: now()
-         },
-      );
-    } else {
-      throw new BadRequestException(`Payload not completed`)
-    }
-    
-  return newRecommendation;
-  }
+  async jobQueue(createRecommendationV2Dto: CreateRecommendationV2Dto) {
+    const jobOptions = {
+      removeOnComplete: false,
+      removeOnFail: false,
+      delay: 2000, // delay 2 seconds
+    };
 
-  async getClevertapId(clevertapId: string): Promise<any> {
-    const existingRecommendation = await this.recommendationModel
-      .find({ clevertapId: clevertapId })
-      .sort({ createdDate: -1}) // order desc
-      .limit(20)
-      .exec();
-    if (!existingRecommendation) {
-      throw new NotFoundException(`Recommendation #${clevertapId} not found`);
-    }
-    return existingRecommendation;
+    await this.recommendationQueue.add(
+      "recommendation",
+      createRecommendationV2Dto,
+      jobOptions
+    );
+    this.recommendationQueue.clean(86400000, "completed", 5000); // expire bull 1 day when completed
+    this.recommendationQueue.on("cleaned", function (jobs, type) {
+      console.log("Cleaned %s %s jobs", jobs.length, type);
+    });
   }
 }

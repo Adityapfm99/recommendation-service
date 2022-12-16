@@ -5,64 +5,46 @@ import {
   HttpStatus,
   Param,
   Post,
+  Query,
   Res,
 } from '@nestjs/common';
-import { CreateRecommendationDto } from 'src/dto/create-recommendation.dto';
+import { CreateRecommendationV2Dto } from 'src/dto/create-recommendation.dto';
 import { ApiTags } from '@nestjs/swagger';
-import { RecommendationService } from 'src/service/recommendation/recommendation.service';
+import { RollbarLogger } from 'nestjs-rollbar';
+import { RecommendationService } from '../../service/recommendation/recommendation.service';
 
 @ApiTags('Recommendation v1')
 @Controller('api/v1/recommendation')
 export class RecommendationController {
-  constructor(private readonly recommendationService: RecommendationService) {}
+  constructor(private readonly recommendationService: RecommendationService,
+              private readonly rollbarLogger: RollbarLogger) {}
 
   @Post()
-  async insertRecommendation(
+  async jobQueue(
     @Res() response,
-    @Body() createRecommendationDto: CreateRecommendationDto,
+    @Body() createRecommendationDto: CreateRecommendationV2Dto,
   ) {
     try {
       const Recommendation =
-        await this.recommendationService.createRecommendation(
+        await this.recommendationService.jobQueue(
           createRecommendationDto,
         );
+      // this.rollbarLogger.info(JSON.stringify(createRecommendationDto));
       return response.status(HttpStatus.CREATED).json({
         message: 'success',
         statusCode: 201,
+        success: true,
         Recommendation,
       });
     } catch (err) {
+      this.rollbarLogger.error(err, 'ERROR, Recommendation not created!');
       return response.status(HttpStatus.BAD_REQUEST).json({
         statusCode: 400,
         message: 'Error: Recommendation not created!',
+        success: false,
         error: 'Bad Request',
       });
     }
   }
 
-  @Get('/:clevertapId')
-  async getClevertap(
-    @Res() response,
-    @Param('clevertapId') clevertapId: string,
-  ) {
-    try {
-      const recommendation = await this.recommendationService.getClevertapId(clevertapId);
-      if (recommendation.length) {
-        return response.status(HttpStatus.OK).json({
-          message: 'success',
-          statusCode: 200,
-          recommendation,
-        });
-      } else {
-        return response.status(HttpStatus.NOT_FOUND).json({
-          message: 'Recommendation Not Found',
-          statusCode: 404,
-          recommendation,
-        });
-      }
-      
-    } catch (err) {
-      return response.status(err.status).json(err.response);
-    }
-  }
 }
