@@ -61,8 +61,12 @@ export class RecommendationControllerV2 {
         });
       }
     } catch (err) {
-      this.rollbarLogger.error(err, 'ERROR Get Data from DB - Please Check connection MongoDB');
-      return response.status(err.status).json(err.response);
+      this.rollbarLogger.error(err);
+      return response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+        message: err.message,
+        success: false,
+      });
+      
     }
   }
 }
