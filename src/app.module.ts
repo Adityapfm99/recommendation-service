@@ -20,10 +20,12 @@ import { RecommendationProcessor } from './processor/recommendation.processor';
     MongooseModule.forFeature([{ name: 'Recommendation', schema: RecommendationSchema }]),
     // LoggerModule.forRoot(),
     LoggerModule.forRoot({
-			accessToken: process.env.TOKEN_ROLLBAR,
-			environment: process.env.ENVIRONMENT,
+			// accessToken: process.env.TOKEN_ROLLBAR,
+      accessToken: 'POST_SERVER_ITEM_ACCESS_TOKEN',
+			environment: process.env.APP_ENVIRONMENT,
       captureUncaught: true,
       captureUnhandledRejections: true,
+      endpoint: "https://api.rollbar.com/api/1/item"
 		}),
     BullModule.forRoot({
       redis: {
